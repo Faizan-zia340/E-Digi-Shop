@@ -1,8 +1,7 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProductDetail from '../../components/admin/ProductDetail';
 import OrderDetail from '../../components/admin/OrderDetail';
-
-import UserDetail from '../../components/admin/UserDetail';
+import UserDetail from '../../components/admin/UserDEtail';
 import { useState } from 'react';
 
 const AdminDashboard = () => {
