@@ -1,11 +1,14 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import ProductDetail from '../../components/admins/ProductDetail';
+import ProductDetail from '..//../components/admins/ProductDetail' ;
 import OrderDetail from '../../components/admins/OrderDetail';
 import UserDetail from '../../components/admins/UserDEtail';
 import { useState } from 'react';
 
 const AdminDashboard = () => {
     const [isload , setisload] = useState(false)
+
+    //user
+    const user =JSON.parse(localStorage.getItem("user"));
     return (
         <div>
             {/* Top */}
@@ -31,11 +34,25 @@ const AdminDashboard = () => {
 
                         {/* text */}
                         <div className="text-center">
-                            <h1 className="text-lg text-violet-500 font-semibold">
-                                <span className="font-bold">Name:</span> Faizan zia
+                            {/* Name  */}
+                            <h1 className=" text-center text-lg text-violet-500">
+                                <span className=" font-bold">Name : </span>
+                                {user?.name}
                             </h1>
-                            <h1 className="text-lg text-violet-500 font-semibold">
-                                <span className="font-bold">Email:</span> test@gmail.com
+                            {/* Email  */}
+                            <h1 className=" text-center text-lg text-violet-500">
+                                <span className=" font-bold">Email : </span>
+                                {user?.email}
+                            </h1>
+                            {/* Date  */}
+                            <h1 className=" text-center text-lg text-violet-500">
+                                <span className=" font-bold">Date : </span>
+                                {user?.date}
+                            </h1>
+                            {/* Role  */}
+                            <h1 className=" text-center text-lg text-violet-500">
+                                <span className=" font-bold">Role : </span>
+                                {user?.role}
                             </h1>
                         </div>
                     </div>
