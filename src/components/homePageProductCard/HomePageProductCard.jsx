@@ -1,6 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import myContext from '../../context/myContext'
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router";
+import myContext from "../../context/myContext";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 // productData 
 // const productData = [
 //     {
@@ -77,11 +80,35 @@ import myContext from '../../context/myContext'
 //     }
 // ]
 
+
+
 const HomePageProductCard = () => {
     const navigate = useNavigate();
 
     const context = useContext(myContext);
-    const {getAllProduct} = context;
+    const { getAllProduct } = context;
+
+    const cartItems = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+
+    const addCart = (item) => {
+        // console.log(item)
+        dispatch(addToCart(item));
+        toast.success("Add to cart")
+    }
+
+    const deleteCart = (item) => {
+        dispatch(deleteFromCart(item));
+        toast.success("Delete cart")
+    }
+
+    // console.log(cartItems)
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems])
+
+
     return (
         <div className="mt-10">
             {/* Heading  */}
@@ -115,7 +142,7 @@ const HomePageProductCard = () => {
                                                 ₹{price}
                                             </h1>
 
-                                            <div className="flex justify-center ">
+                                            <div onClick={()=>addCart(item)} className="flex justify-center ">
                                                
                                                 <button className=" bg-violet-300 hover:bg-violet-500 w-full text-white py-[4px] rounded-lg font-bold"
                                                    >
