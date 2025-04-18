@@ -42,7 +42,7 @@ const user =JSON.parse(localStorage.getItem("users"))
                                 {user?.name}
                             </h1>
                             {/* Email  */}
-                            <h1 className=" text-center text-lg text-violt-500">
+                            <h1 className=" text-center text-lg text-violet-500">
                                 <span className=" font-bold">Email : </span>
                                 {user?.email}
                             </h1>

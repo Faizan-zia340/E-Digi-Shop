@@ -107,7 +107,7 @@ const AddProductPage = () => {
                                 })
                             }}
                             placeholder='Product Title'
-                            className='bg-purple-50 border text-purple-300 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
+                            className='bg-purple-50 border text-violet-500 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
                         />
                     </div>
 
@@ -124,7 +124,7 @@ const AddProductPage = () => {
                                 })
                             }}
                             placeholder='Product Price'
-                            className='bg-purple-50 border text-purple-300 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
+                            className='bg-purple-50 border text-violet-500 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
                         />
                     </div>
 
@@ -141,7 +141,7 @@ const AddProductPage = () => {
                                 })
                             }}
                             placeholder='Product Image Url'
-                            className='bg-purple-50 border text-purplepink-300 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
+                            className='bg-purple-50 border text-violet-500 border-purple-200 px-2 py-2 w-96 rounded-md outline-none placeholder-purple-300'
                         />
                     </div>
 
@@ -155,7 +155,7 @@ const AddProductPage = () => {
                                     category: e.target.value
                                 })
                             }}
-                            className="w-full px-1 py-2 text-purole-300 bg-purple-50 border border-purple-200 rounded-md outline-none  ">
+                            className="w-full px-1 py-2 text-violet-500 bg-purple-50 border border-purple-200 rounded-md outline-none  ">
                             <option disabled>Select Product Category</option>
                             {categoryList.map((value, index) => {
                                 const { name } = value
@@ -175,7 +175,7 @@ const AddProductPage = () => {
                                     ...product,
                                     description: e.target.value
                                 })
-                            }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-purple-300 bg-purple-50 border border-purple-200 rounded-md outline-none placeholder-purple-300 ">
+                            }} name="description" placeholder="Product Description" rows="5" className=" w-full px-2 py-1 text-violet-500 bg-purple-50 border border-purple-200 rounded-md outline-none placeholder-purple-300 ">
 
                         </textarea>
                     </div>
