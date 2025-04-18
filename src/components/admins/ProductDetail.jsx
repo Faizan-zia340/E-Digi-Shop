@@ -1,19 +1,37 @@
+import toast from "react-hot-toast";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContext";
 import Loader from "../loader/Loader";
-const ProductDetail = () => {
-    
+import { fireDB } from "../../firebase/FirebaseConfig";
+import { doc } from "firebase/firestore";
+import { deleteDoc } from "firebase/firestore";
 
+
+
+
+const ProductDetail = () => {
     const context = useContext(myContext);
-    const { loading, getAllProduct } = context;
+    const { loading, setLoading, getAllProduct, getAllProductFunction } = context;
     // console.log(getAllProduct)
 
+    // navigate 
+    const navigate = useNavigate();
 
-     // navigate 
-     const navigate = useNavigate();
+    // Delete product 
+    const deleteProduct = async (id) => {
+        setLoading(true)
+        try {
+            await deleteDoc(doc(fireDB, 'products', id))
+            toast.success('Product Deleted successfully')
+            getAllProductFunction();
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
+    }
 
-     
     return (
         <div>
             <div className="py-5 flex justify-between items-center">
@@ -47,7 +65,7 @@ const ProductDetail = () => {
                         {getAllProduct.map((item, index) => {
                             const { id,title, price, category, date, productImageUrl } = item
                             return (
-                                <tr key={id} className="text-pink-300">
+                                <tr key={id} className="text-purple-300">
                                     <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 ">
                                         {index + 1}.
                                     </td>
@@ -60,7 +78,7 @@ const ProductDetail = () => {
                                 {title}
                             </td>
                             <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-purple-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
-                                ₹{price}
+                                {price}
                             </td>
                             <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-purple-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                                 {category}
@@ -71,7 +89,7 @@ const ProductDetail = () => {
                             <td onClick={()=> navigate(`/updateproduct/${id}`)}  className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-purple-100 stroke-slate-500  text-green-500 cursor-pointer ">
                                 Edit
                             </td>
-                            <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-purple-100 stroke-slate-500  text-red-500 cursor-pointer ">
+                            <td onClick={()=> deleteProduct(id)} className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-purple-100 stroke-slate-500  text-red-500 cursor-pointer ">
                                 Delete
                             </td>
                         </tr>

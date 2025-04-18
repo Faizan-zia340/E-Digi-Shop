@@ -58,7 +58,7 @@ const AdminDashboard = () => {
         <Tabs>
           <TabList className="flex flex-wrap -m-4 text-center justify-center space-x-4">
             {/* Total Products */}
-            <Tab onClick={() => setisload(true)} className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
+            <Tab className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
               <div className="border bg-purple-50 hover:bg-purple-100 border-purple-100 px-4 py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                 <div className="text-violet-500 w-12 h-12 mb-3 inline-block">
                   <svg xmlns="http://www.w3.org/2000/svg" width={50} height={50} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-basket">
@@ -77,7 +77,7 @@ const AdminDashboard = () => {
             </Tab>
 
             {/* Total Order */}
-            <Tab onClick={() => setisload(true)} className="p-4 md:w-1/4 sm:w-1/2 w-full cursor-pointer">
+            <Tab  className="p-4 md:w-1/4 sm:w-1/2 w-full cursor-pointer">
               <div className="border bg-purple-50 hover:bg-purple-100 border-purple-100 px-4 py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                 <div className="text-violet-500 w-12 h-12 mb-3 inline-block">
                   <svg xmlns="http://www.w3.org/2000/svg" width={50} height={50} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-list-ordered">
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
             </Tab>
 
             {/* Total User */}
-            <Tab onClick={() => setisload(true)} className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
+            <Tab  className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
               <div className="border bg-purple-50 hover:bg-purple-100 border-purple-100 px-4 py-3 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
                 <div className="text-violet-500 w-12 h-12 mb-3 inline-block">
                   <svg xmlns="http://www.w3.org/2000/svg" width={50} height={50} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users">
