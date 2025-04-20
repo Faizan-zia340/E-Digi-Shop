@@ -1,7 +1,9 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProductDetail from '../../components/admins/ProductDetail';
 import OrderDetail from '../../components/admins/OrderDetail';
-import UserDetail from '../../components/admins/UserDetail';
+import UserDetail from "../../components/admins/UserDetail";
+
+
 
 
 
