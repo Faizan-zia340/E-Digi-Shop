@@ -2,10 +2,12 @@
 
 import { useNavigate, useParams } from "react-router";
 import Layout from "../../components/layout/Layout";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, deleteFromCart } from "../../redux/cartSlice";
+import toast from "react-hot-toast";
 const CategoryPage = () => {
     const { categoryname } = useParams();
 
@@ -17,6 +19,27 @@ const CategoryPage = () => {
     // filter product 
     const filterProduct = getAllProduct.filter((obj)=> obj.category.includes(categoryname));
     // console.log(filterProduct)
+
+
+    const cartItems = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+
+    const addCart = (item) => {
+        // console.log(item)
+        dispatch(addToCart(item));
+        toast.success("Add to cart")
+    }
+
+    const deleteCart = (item) => {
+        dispatch(deleteFromCart(item));
+        toast.success("Delete cart")
+    }
+
+    // console.log(cartItems)
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems])
     return (
         <Layout>
             <div className="mt-10">
@@ -61,12 +84,29 @@ const CategoryPage = () => {
                                                             <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
                                                                {price}
                                                             </h1>
+<div className="flex justify-center ">
+                                             {cartItems.some((p)=> p.id === item.id) 
+                                               
+                                                ?
+                                              <button
+                                              onClick={() => deleteCart(item)}
+                                              className=" bg-red-900 hover:bg-red-600 w-full text-white py-[4px] rounded-lg font-bold">
+                                         Delete From Cart
+                                            </button>
 
-                                                            <div className="flex justify-center ">
-                                                                <button className=" bg-violet-300 hover:bg-violet-500 w-full text-white py-[4px] rounded-lg font-bold">
-                                                                    Add To Cart
-                                                                </button>
-                                                            </div>
+                                                : 
+
+                                                <button
+                                             onClick={() => addCart(item)}
+                                              className=" bg-violet-300 hover:bg-violet-500 w-full text-white py-[4px] rounded-lg font-bold"
+                                              >
+                                              
+                                               Add To Cart
+                                           </button>
+                                              } 
+                                              
+                                            
+                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
