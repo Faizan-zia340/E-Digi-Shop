@@ -55,7 +55,7 @@ const BuyNowModal = () => {
             <Button
               type="submit"
               onClick={handleOpen}
-              className="w-full px-4 py-3 text-center text-white'bg-violet-500 hover:bg-purple-600 rounded-lg"
+              className="w-full px-4 py-3 text-center text-white bg-violet-500 hover:bg-purple-600 rounded-lg"
             >
               Buy now
             </Button>

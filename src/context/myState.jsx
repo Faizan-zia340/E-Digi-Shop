@@ -1,26 +1,8 @@
-// import { useState } from 'react';
-// import MyContext from './myContext';
-
-// function MyState({children}) {
-//     const name = "Faizan zia"
-//     const [loading , setloading] =useState(false);
-//   return (
-//     <MyContext.Provider value={{
-//         loading,
-//         setloading
-//     }}>
-//        {children}
-//     </MyContext.Provider>
-//   )
-// }
-
-// export default MyState
-
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import MyContext from './myContext';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { fireDB } from "../firebase/FirebaseConfig" ;
+import { fireDB } from '../firebase/FirebaseConfig';
 
 function MyState({ children }) {
     // Loading State 
@@ -55,16 +37,48 @@ function MyState({ children }) {
         }
     }
 
+
+    // Order State 
+    const [getAllOrder, setGetAllOrder] = useState([]);
+
+
+    /**========================================================================
+     *                           GET All Order Function
+     *========================================================================**/
+
+    const getAllOrderFunction = async () => {
+        setLoading(true);
+        try {
+            const q = query(
+                collection(fireDB, "order"),
+                orderBy('time')
+            );
+            const data = onSnapshot(q, (QuerySnapshot) => {
+                let orderArray = [];
+                QuerySnapshot.forEach((doc) => {
+                    orderArray.push({ ...doc.data(), id: doc.id });
+                });
+                setGetAllOrder(orderArray);
+                setLoading(false);
+            });
+            return () => data;
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         getAllProductFunction();
+        getAllOrderFunction();
     }, []);
     return (
         <MyContext.Provider value={{
             loading,
             setLoading,
             getAllProduct,
-            getAllProductFunction
-           
+            getAllProductFunction,
+            getAllOrder
         }}>
             {children}
         </MyContext.Provider>
