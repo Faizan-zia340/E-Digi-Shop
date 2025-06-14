@@ -1,3 +1,4 @@
+
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import myContext from "../../context/myContext";
@@ -5,38 +6,33 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 
+
 const HomePageProductCard = () => {
-  const navigate = useNavigate();
-  const context = useContext(myContext);
-  const { getAllProduct, user } = context; // 👈 assuming `user` is null if not logged in
+    const navigate = useNavigate();
 
-  const cartItems = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+    const context = useContext(myContext);
+    const { getAllProduct } = context;
 
-  const addCart = (item) => {
-    if (!user) {
-      toast.error("Please login to add items to cart");
-      navigate("/login");
-      return;
+    const cartItems = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+
+    const addCart = (item) => {
+        // console.log(item)
+        dispatch(addToCart(item));
+        toast.success("Add to cart")
     }
 
-    const cleanItem = {
-      ...item,
-      time: item.time?.toDate?.().toISOString?.() ?? undefined,
-    };
+    const deleteCart = (item) => {
+        dispatch(deleteFromCart(item));
+        toast.success("Delete cart")
+    }
 
-    dispatch(addToCart(cleanItem));
-    toast.success("Added to cart");
-  };
+    // console.log(cartItems)
 
-  const deleteCart = (item) => {
-    dispatch(deleteFromCart(item));
-    toast.success("Removed from cart");
-  };
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+    }, [cartItems])
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
 
   return (
     <div className="mt-10">
