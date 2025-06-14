@@ -52,8 +52,8 @@ const ProductDetail = () => {
                 <table className="w-full text-left border border-collapse sm:border-separate border-purple-100 text-purple-400" >
                     <tbody>
                         <tr>
-                            <th scope="col" className="h-12 px-6 text-md border-l first:border-l-0 border-pink-100 text-slate-700 bg-slate-100 font-bold fontPara">S.No.</th>
-                            <th scope="col" className="h-12 px-6 text-md border-l first:border-l-0 border-pink-100 text-slate-700 bg-slate-100 font-bold fontPara">Image</th>
+                            <th scope="col" className="h-12 px-6 text-md border-l first:border-l-0 border-purple-100 text-slate-700 bg-slate-100 font-bold fontPara">S.No.</th>
+                            <th scope="col" className="h-12 px-6 text-md border-l first:border-l-0 border-purple-100 text-slate-700 bg-slate-100 font-bold fontPara">Image</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-purple-100 text-slate-700 bg-slate-100">Title</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-purple-100 text-slate-700 bg-slate-100">Price</th>
                             <th scope="col" className="h-12 px-6 text-md font-bold fontPara border-l first:border-l-0 border-purple-100 text-slate-700 bg-slate-100">Category</th>
