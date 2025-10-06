@@ -1,7 +1,6 @@
-
-
-
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 const category = [
   { id: 1, image: 'https://cdn-icons-png.flaticon.com/256/4359/4359963.png', name: 'Fashion' },
@@ -16,29 +15,50 @@ const category = [
 
 const CategoryCards = () => {
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const handleDropdownChange = (e) => {
+    const value = e.target.value;
+    setSelectedCategory(value);
+    if(value) navigate(`/category/${value.toLowerCase()}`);
+  };
 
   return (
-    <div className="w-full flex justify-center bg-white-100 py-4">
-      <div className="flex gap-4 overflow-x-scroll hide-scroll-bar px-4 lg:justify-between w-full lg:w-11/12">
+    <div className="w-full py-6 bg-gray-50 px-4 lg:px-0">
+      
+      {/* Mobile Dropdown */}
+      <div className="block lg:hidden mb-4">
+        <select
+          value={selectedCategory}
+          onChange={handleDropdownChange}
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500"
+        >
+          <option value="">Select Category</option>
+          {category.map((item) => (
+            <option key={item.id} value={item.name}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Desktop / Large screen */}
+      <div className="hidden lg:flex gap-4 overflow-x-scroll hide-scroll-bar justify-between w-full lg:w-11/12 mx-auto">
         {category.map((item) => (
-          <div
+          <motion.div
             key={item.id}
-            className="flex-shrink-0 flex flex-col items-center bg-white shadow-md rounded-md border border-gray-200 p-4 w-24 h-36 transition-transform transform hover:scale-105 hover:shadow-lg hover:border-violet-400 cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="flex-shrink-0 flex flex-col items-center bg-white shadow-md rounded-lg border border-gray-200 p-4 w-24 h-36 cursor-pointer"
             onClick={() => navigate(`/category/${item.name.toLowerCase()}`)}
           >
             <div className="bg-violet-500 rounded-full w-16 h-16 flex items-center justify-center hover:bg-violet-400 transition-all">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-12 h-12"
-              />
+              <img src={item.image} alt={item.name} className="w-12 h-12" />
             </div>
-            <div className="mt-2">
-              <h3 className="text-center text-xs font-medium text-gray-700 capitalize">
-                {item.name}
-              </h3>
-            </div>
-          </div>
+            <h3 className="mt-2 text-center text-xs font-medium text-gray-700 capitalize">
+              {item.name}
+            </h3>
+          </motion.div>
         ))}
       </div>
 
