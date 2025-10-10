@@ -1,5 +1,6 @@
 
 import { motion } from "framer-motion";
+import heroTestimonial from "../pictures/608e5cb4-6654-4673-8477-2e37b6637193.jpg";
 
 const Testimonial = () => {
   return (
@@ -57,6 +58,7 @@ const Testimonial = () => {
                   alt="testimonial"
                   className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-4 border-violet-500 bg-gray-100 shadow-sm"
                   src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRnJbf6AKUkKb4rskncNv4pgcaL-J1xjUm8_yEDdkblD6BIYWbi"
+              
                 />
                 <p className="leading-relaxed text-gray-600">
                   Loved the quality and service! The shopping experience was
