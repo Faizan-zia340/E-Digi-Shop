@@ -93,7 +93,7 @@ const ProductInfo = () => {
                 E-Digi Shop Exclusive
               </p>
               <p className="text-2xl font-extrabold text-violet-600 mb-6">
-                ₹ {product?.price}
+                Rs : {product?.price}
               </p>
 
               <h3 className="text-lg font-semibold text-gray-800 mb-2">

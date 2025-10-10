@@ -114,53 +114,56 @@ const CartPage = () => {
                   {cartItems.map((item, index) => {
                     const { id, title, price, productImageUrl, quantity, category } = item;
                     return (
-                      <motion.li
-                        key={index}
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex items-center justify-between bg-violet-50 rounded-xl shadow-sm p-4"
-                      >
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={productImageUrl}
-                            alt={title}
-                            className="w-24 h-24 rounded-lg object-cover border border-violet-100"
-                          />
-                          <div>
-                            <h3 className="font-semibold text-gray-800 text-lg">{title}</h3>
-                            <p className="text-sm text-gray-500">{category}</p>
-                            <p className="font-bold text-violet-600 mt-1">₹{price}</p>
-                          </div>
-                        </div>
+                     <motion.li
+  key={index}
+  whileHover={{ scale: 1.02 }}
+  transition={{ duration: 0.3 }}
+  className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-violet-50 rounded-xl shadow-sm p-4 gap-4"
+>
+  {/* Product info */}
+  <div className="flex items-center gap-4">
+    <img
+      src={productImageUrl}
+      alt={title}
+      className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover border border-violet-100"
+    />
+    <div>
+      <h3 className="font-semibold text-gray-800 text-base sm:text-lg">{title}</h3>
+      <p className="text-sm text-gray-500">{category}</p>
+      <p className="font-bold text-violet-600 mt-1">Rs :{price}</p>
+    </div>
+  </div>
 
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={() => handleDecrement(id)}
-                            className="w-7 h-7 rounded-full bg-violet-200 hover:bg-violet-300 text-gray-700 font-bold"
-                          >
-                            -
-                          </button>
-                          <input
-                            type="text"
-                            className="w-10 text-center border border-gray-200 rounded-md"
-                            value={quantity}
-                            readOnly
-                          />
-                          <button
-                            onClick={() => handleIncrement(id)}
-                            className="w-7 h-7 rounded-full bg-violet-200 hover:bg-violet-300 text-gray-700 font-bold"
-                          >
-                            +
-                          </button>
+  {/* Quantity & Remove Buttons */}
+  <div className="flex items-center justify-center sm:justify-end gap-3 flex-wrap">
+    <button
+      onClick={() => handleDecrement(id)}
+      className="w-8 h-8 sm:w-7 sm:h-7 rounded-full bg-violet-200 hover:bg-violet-300 text-gray-700 font-bold"
+    >
+      -
+    </button>
+    <input
+      type="text"
+      className="w-10 text-center border border-gray-200 rounded-md"
+      value={quantity}
+      readOnly
+    />
+    <button
+      onClick={() => handleIncrement(id)}
+      className="w-8 h-8 sm:w-7 sm:h-7 rounded-full bg-violet-200 hover:bg-violet-300 text-gray-700 font-bold"
+    >
+      +
+    </button>
 
-                          <button
-                            onClick={() => deleteCart(item)}
-                            className="ml-3 flex items-center gap-1 text-red-500 hover:text-red-600"
-                          >
-                            <Trash size={16} /> <span>Remove</span>
-                          </button>
-                        </div>
-                      </motion.li>
+    <button
+      onClick={() => deleteCart(item)}
+      className="flex items-center gap-1 text-red-500 hover:text-red-600 text-sm sm:text-base"
+    >
+      <Trash size={16} /> <span>Remove</span>
+    </button>
+  </div>
+</motion.li>
+
                     );
                   })}
                 </ul>
@@ -188,7 +191,7 @@ const CartPage = () => {
               <dl className="space-y-3 text-gray-700">
                 <div className="flex justify-between">
                   <dt>Items ({cartItemTotal})</dt>
-                  <dd>₹{cartTotal}</dd>
+                  <dd>{cartTotal}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt>Delivery</dt>
@@ -196,7 +199,7 @@ const CartPage = () => {
                 </div>
                 <div className="flex justify-between border-t pt-3 font-bold text-gray-900">
                   <dt>Total</dt>
-                  <dd>₹{cartTotal}</dd>
+                  <dd>Rs : {cartTotal}</dd>
                 </div>
               </dl>
 

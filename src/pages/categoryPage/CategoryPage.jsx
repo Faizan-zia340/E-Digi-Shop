@@ -1,137 +1,186 @@
-
-
 import { useNavigate, useParams } from "react-router";
 import Layout from "../../components/layout/Layout";
-import { useContext,useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import myContext from "../../context/myContext";
 import Loader from "../../components/loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, deleteFromCart } from "../../redux/cartSlice";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import { Heart } from "lucide-react";
+import { fireDB } from "../../firebase/FirebaseConfig";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+
 const CategoryPage = () => {
-    const { categoryname } = useParams();
+  const { categoryname } = useParams();
+  const context = useContext(myContext);
+  const { getAllProduct, loading, user } = context;
 
-    const context = useContext(myContext);
-    const { getAllProduct, loading } = context;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart);
 
-    const navigate = useNavigate();
+  // 🧩 Filter product by category
+  const filterProduct = getAllProduct.filter((obj) =>
+    obj.category.includes(categoryname)
+  );
 
-    // filter product 
-    const filterProduct = getAllProduct.filter((obj)=> obj.category.includes(categoryname));
-    // console.log(filterProduct)
+  // 🧡 Wishlist State
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist")) || []
+  );
 
+  // 🛒 Add / Remove from cart
+  const addCart = (item) => {
+    dispatch(addToCart(item));
+    toast.success("🛒 Added to cart");
+  };
 
-    const cartItems = useSelector((state) => state.cart);
-    const dispatch = useDispatch();
+  const deleteCart = (item) => {
+    dispatch(deleteFromCart(item));
+    toast.error("🗑️ Removed from cart");
+  };
 
-    const addCart = (item) => {
-        // console.log(item)
-        dispatch(addToCart(item));
-        toast.success("Add to cart")
+  // ❤️ Toggle Wishlist
+  const toggleWishlist = async (id) => {
+    const pid = id.toString();
+
+    if (!user) {
+      // Guest user (localStorage)
+      let updated = wishlist.includes(pid)
+        ? wishlist.filter((wid) => wid !== pid)
+        : [...wishlist, pid];
+
+      setWishlist(updated);
+      localStorage.setItem("wishlist", JSON.stringify(updated));
+      toast(
+        wishlist.includes(pid)
+          ? "💔 Removed from wishlist"
+          : "❤️ Added to wishlist"
+      );
+      return;
     }
 
-    const deleteCart = (item) => {
-        dispatch(deleteFromCart(item));
-        toast.success("Delete cart")
+    // Logged-in user (Firebase)
+    const itemRef = doc(fireDB, "wishlists", user.uid, "items", pid);
+    if (wishlist.includes(pid)) {
+      await deleteDoc(itemRef);
+      setWishlist(wishlist.filter((wid) => wid !== pid));
+      toast("💔 Removed from wishlist");
+    } else {
+      await setDoc(itemRef, { addedAt: Date.now() });
+      setWishlist([...wishlist, pid]);
+      toast("❤️ Added to wishlist");
     }
+  };
 
-    // console.log(cartItems)
+  // Sync cart & wishlist with localStorage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-    }, [cartItems])
-    return (
-        <Layout>
-            <div className="mt-10">
-                {/* Heading  */}
-                <div className="">
-                    <h1 className=" text-center mb-5 text-2xl font-semibold first-letter:uppercase">{categoryname}</h1>
-                </div>
+  return (
+    <Layout>
+      <div className="py-10 bg-gradient-to-br from-violet-100 via-white to-pink-50 min-h-screen">
+        {/* 🏷 Category Heading */}
+        <h1 className="text-center text-3xl font-extrabold text-gray-800 mb-10 first-letter:uppercase">
+          {categoryname} Products
+        </h1>
 
-                {loading ?
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader />
+          </div>
+        ) : (
+          <div className="container mx-auto px-5 max-w-7xl">
+            {filterProduct.length > 0 ? (
+              <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {filterProduct.map((item, index) => {
+                  const { id, title, price, productImageUrl, category } = item;
+                  const isInCart = cartItems.some((p) => p.id === item.id);
+                  const isWishlisted = wishlist.includes(id.toString());
 
-                    <div className="flex justify-center">
-                        <Loader />
-                    </div>
+                  return (
+                    <motion.div
+                      key={index}
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden relative"
+                    >
+                      {/* ❤️ Wishlist Icon */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <Heart
+                          onClick={() => toggleWishlist(id)}
+                          className={`cursor-pointer ${
+                            isWishlisted
+                              ? "fill-red-500 text-red-500"
+                              : "text-gray-400"
+                          }`}
+                          size={24}
+                        />
+                      </div>
 
-                    :
+                      <div
+                        onClick={() => navigate(`/productinfo/${id}`)}
+                        className="relative cursor-pointer"
+                      >
+                        <img
+                          src={productImageUrl}
+                          alt={title}
+                          className="w-full h-60 object-cover"
+                        />
+                        <span className="absolute top-3 left-3 bg-violet-500 text-white text-xs px-2 py-1 rounded-full shadow">
+                          {category}
+                        </span>
+                      </div>
 
-                    <section className="text-gray-600 body-font">
-                        {/* main 2 */}
-                        <div className="container px-5 py-5 mx-auto">
-                            {/* main 3  */}
-                            <div className="flex flex-wrap -m-4 justify-center">
-                                {filterProduct.length > 0 ?
-                                    <>
-                                        {filterProduct.map((item, index) => {
-                                            const { id, title, price, productImageUrl } = item;
-                                            return (
-                                                <div key={index} className="p-4 w-full md:w-1/4">
-                                                    <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
-                                                        <img
-                                                            onClick={() => navigate(`/productinfo/${id}`)}
-                                                            className="lg:h-80  h-96 w-full"
-                                                            src={productImageUrl}
-                                                            alt="img"
-                                                        />
-                                                        <div className="p-6">
-                                                            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                                                                E-Digi ShopE-
-                                                            </h2>
-                                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                                                                {title.substring(0, 25)}
-                                                            </h1>
-                                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
-                                                               {price}
-                                                            </h1>
-<div className="flex justify-center ">
-                                             {cartItems.some((p)=> p.id === item.id) 
-                                               
-                                                ?
-                                              <button
-                                              onClick={() => deleteCart(item)}
-                                              className=" bg-red-900 hover:bg-red-600 w-full text-white py-[4px] rounded-lg font-bold">
-                                         Delete From Cart
-                                            </button>
+                      <div className="p-5">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                          {title.length > 25
+                            ? title.substring(0, 25) + "..."
+                            : title}
+                        </h2>
+                        <p className="text-violet-600 font-bold text-lg mb-3">
+                          Rs: {price}
+                        </p>
 
-                                                : 
-
-                                                <button
-                                             onClick={() => addCart(item)}
-                                              className=" bg-violet-300 hover:bg-violet-500 w-full text-white py-[4px] rounded-lg font-bold"
-                                              >
-                                              
-                                               Add To Cart
-                                           </button>
-                                              } 
-                                              
-                                            
-                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
-                                    </>
-
-                                    :
-
-                                    <div>
-                                        <div className="flex justify-center">
-                                            <img className=" mb-2" src="https://cdn-icons-png.flaticon.com/128/2748/2748614.png" alt="" />
-                                        </div>
-                                        <h1 className=" text-black text-xl">No {categoryname} product found</h1>
-                                    </div>
-                                }
-
-                            </div>
-                        </div>
-                    </section>
-
-                }
-            </div>
-        </Layout>
-    );
-}
+                        {isInCart ? (
+                          <button
+                            onClick={() => deleteCart(item)}
+                            className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition-all duration-200"
+                          >
+                            Remove from Cart
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => addCart(item)}
+                            className="w-full bg-violet-500 hover:bg-violet-600 text-white font-bold py-2 rounded-lg transition-all duration-200"
+                          >
+                            Add to Cart
+                          </button>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <img
+                  className="mx-auto mb-3 w-20"
+                  src="https://cdn-icons-png.flaticon.com/128/2748/2748614.png"
+                  alt="No Product"
+                />
+                <h2 className="text-lg text-gray-700 font-semibold">
+                  No {categoryname} products found
+                </h2>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </Layout>
+  );
+};
 
 export default CategoryPage;

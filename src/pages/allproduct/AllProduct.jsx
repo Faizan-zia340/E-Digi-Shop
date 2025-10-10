@@ -203,7 +203,7 @@ const AllProduct = () => {
                       {title}
                     </h1>
                     <p className="text-xl font-extrabold text-violet-600 mt-1">
-                      ₹ {price}
+                      Rs : {price}
                     </p>
                   </div>
                 </motion.div>
