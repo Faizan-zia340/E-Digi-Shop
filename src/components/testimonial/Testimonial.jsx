@@ -1,17 +1,14 @@
-
 import { motion } from "framer-motion";
-import heroTestimonial from "../pictures/608e5cb4-6654-4673-8477-2e37b6637193.jpg";
+
+// Images import karo
+import starletImg from "../pictures/608e5cb4-6654-4673-8477-2e37b6637193.jpg";
 
 const Testimonial = () => {
   return (
     <div>
       <section className="text-gray-600 body-font mb-10">
-        {/* main */}
         <div className="container px-5 py-10 mx-auto">
-          {/* Heading */}
-          <h1 className="text-center text-3xl font-bold text-black">
-            Testimonial
-          </h1>
+          <h1 className="text-center text-3xl font-bold text-black">Testimonial</h1>
           <h2 className="text-center text-2xl font-semibold mb-10">
             What our <span className="text-violet-500">customers</span> are saying
           </h2>
@@ -58,7 +55,6 @@ const Testimonial = () => {
                   alt="testimonial"
                   className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-4 border-violet-500 bg-gray-100 shadow-sm"
                   src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRnJbf6AKUkKb4rskncNv4pgcaL-J1xjUm8_yEDdkblD6BIYWbi"
-              
                 />
                 <p className="leading-relaxed text-gray-600">
                   Loved the quality and service! The shopping experience was
@@ -85,7 +81,7 @@ const Testimonial = () => {
                 <img
                   alt="testimonial"
                   className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-4 border-violet-500 bg-gray-100 shadow-sm"
-                  src="src\components\pictures\608e5cb4-6654-4673-8477-2e37b6637193.jpg"
+                  src={starletImg} // ✅ Imported image
                 />
                 <p className="leading-relaxed text-gray-600">
                   From checkout to delivery, everything was seamless. The
@@ -94,7 +90,7 @@ const Testimonial = () => {
                 </p>
                 <span className="inline-block h-1 w-10 rounded bg-violet-500 mt-6 mb-4" />
                 <h2 className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase">
-                  starlet
+                  Starlet
                 </h2>
                 <p className="text-gray-500">CTO</p>
               </div>
