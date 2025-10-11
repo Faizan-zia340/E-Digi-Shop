@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Search, Menu, X, ShoppingCart } from "lucide-react";
+import { Search, Menu, X, ShoppingCart, Heart } from "lucide-react";
 import SearchBar from "../searchBar/SearchBar";
 
 const Navbar = () => {
@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const user = JSON.parse(localStorage.getItem("users"));
   const cartItems = useSelector((state) => state.cart);
+  const wishlistItems = useSelector((state) => state.wishlist || []); // ✅ optional fallback
 
   const logout = () => {
     localStorage.clear("users");
@@ -51,6 +52,15 @@ const Navbar = () => {
             </span>
           )}
 
+          {/* ✅ Wishlist */}
+          <Link
+            to="/my-wishlist"
+            className="flex items-center gap-1 bg-white/10 px-3 py-1 rounded-md hover:bg-white/20 transition"
+          >
+            <Heart size={20} />
+            ({wishlistItems.length})
+          </Link>
+
           {/* ✅ Cart */}
           <Link
             to="/cart"
@@ -73,6 +83,15 @@ const Navbar = () => {
           >
             <Search size={22} />
           </button>
+
+          <Link to="/my-wishlist" className="text-white relative">
+            <Heart size={22} />
+            {wishlistItems.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white text-violet-700 text-xs font-bold rounded-full px-1.5 py-0.5">
+                {wishlistItems.length}
+              </span>
+            )}
+          </Link>
 
           <Link to="/cart" className="text-white relative">
             <ShoppingCart size={22} />
