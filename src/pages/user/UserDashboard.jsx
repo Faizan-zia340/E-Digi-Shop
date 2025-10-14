@@ -206,13 +206,7 @@ const UserDashboard = () => {
               <Package size={18} /> My Orders
             </li>
 
-            {/* <li
-              onClick={() => navigate("/my-wishlist")}
-              className="flex items-center gap-3 cursor-pointer p-2 rounded-lg hover:bg-violet-100"
-            >
-              <Heart size={18} /> My Wishlist
-            </li> */}
-
+        
             <li
               onClick={() => setActiveTab("profile")}
               className={`flex items-center gap-3 cursor-pointer p-2 rounded-lg ${
