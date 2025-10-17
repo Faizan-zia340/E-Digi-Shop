@@ -129,152 +129,123 @@
 // };
 
 // export default AdminDashboard;
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { useState, useContext } from "react";
+import myContext from "../../context/myContext";
 import ProductDetail from "../../components/admins/ProductDetail";
 import OrderDetail from "../../components/admins/OrderDetail";
-import UserDetail from "../../components/admins/UserDEtail";
-import { useContext } from "react";
-import myContext from "../../context/myContext";
-import { useNavigate } from "react-router";
-import { ArrowLeft } from "lucide-react";
+import UserDetail from "../../components/admins/UserDetail";
+import { LayoutDashboard, Package, ShoppingBag, Users } from "lucide-react";
 
 const AdminDashboard = () => {
   const user = JSON.parse(localStorage.getItem("users"));
   const context = useContext(myContext);
   const { getAllProduct, getAllOrder, getAllUser } = context;
-  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-white to-pink-50 py-10">
-      {/* Header */}
-      <div className="flex justify-between items-center px-6 mb-8">
-        <h1 className="text-3xl font-extrabold text-violet-700">
-          Admin Dashboard
+    <div className="flex min-h-screen bg-purple-50">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gradient-to-b from-violet-600 to-purple-700 text-white p-5 flex flex-col shadow-lg">
+        <h1 className="text-2xl font-bold text-center mb-6 border-b border-violet-400 pb-3">
+          Admin Panel
         </h1>
-          <button
-        onClick={() => setActiveTab("overview")}
-        className="text-violet-600 hover:text-violet-800 font-medium flex items-center gap-1 transition-all"
-      >
-        ← Back
-      </button>
-      </div>
 
-      {/* Admin Info Card */}
-      <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md border border-violet-100 rounded-2xl shadow-lg hover:shadow-xl transition-all p-6 text-center mb-12">
-        <img
-          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRnJbf6AKUkKb4rskncNv4pgcaL-J1xjUm8_yEDdkblD6BIYWbi"
-          alt="Admin"
-          className="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-violet-300 object-cover"
-        />
-        <h2 className="text-xl font-bold text-violet-600 mb-1">{user?.name}</h2>
-        <p className="text-gray-600 mb-1">{user?.email}</p>
-        <p className="text-gray-500 text-sm mb-1">Joined: {user?.date}</p>
-        <p className="text-violet-700 font-semibold">
-          Role: <span className="text-violet-500">{user?.role}</span>
-        </p>
-      </div>
+        <ul className="space-y-3">
+          <li
+            onClick={() => setActiveTab("dashboard")}
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition ${
+              activeTab === "dashboard"
+                ? "bg-violet-500"
+                : "hover:bg-violet-400/40"
+            }`}
+          >
+            <LayoutDashboard size={20} /> Dashboard
+          </li>
 
-      {/* Tabs */}
-      <Tabs className="max-w-6xl mx-auto">
-        <TabList className="flex flex-wrap justify-center gap-6 mb-10">
-          {/* Total Products */}
-          <Tab className="cursor-pointer">
-            <div className="bg-gradient-to-br from-violet-50 to-pink-50 border border-violet-200 px-8 py-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={50}
-                height={50}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-shopping-basket mx-auto text-violet-600 mb-2"
-              >
-                <path d="m5 11 4-7" />
-                <path d="m19 11-4-7" />
-                <path d="M2 11h20" />
-                <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8c.9 0 1.8-.7 2-1.6l1.7-7.4" />
-                <path d="m9 11 1 9" />
-                <path d="M4.5 15.5h15" />
-                <path d="m15 11-1 9" />
-              </svg>
-              <h2 className="text-3xl font-bold text-violet-700">
-                {getAllProduct.length}
-              </h2>
-              <p className="text-violet-600 font-semibold">Total Products</p>
+          <li
+            onClick={() => setActiveTab("products")}
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition ${
+              activeTab === "products"
+                ? "bg-violet-500"
+                : "hover:bg-violet-400/40"
+            }`}
+          >
+            <Package size={20} /> Products
+          </li>
+
+          <li
+            onClick={() => setActiveTab("orders")}
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition ${
+              activeTab === "orders"
+                ? "bg-violet-500"
+                : "hover:bg-violet-400/40"
+            }`}
+          >
+            <ShoppingBag size={20} /> Orders
+          </li>
+
+          <li
+            onClick={() => setActiveTab("users")}
+            className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition ${
+              activeTab === "users" ? "bg-violet-500" : "hover:bg-violet-400/40"
+            }`}
+          >
+            <Users size={20} /> Users
+          </li>
+        </ul>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-8">
+        {activeTab === "dashboard" && (
+          <div>
+            <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 text-center border border-violet-100">
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/2202/2202112.png"
+                alt="Admin"
+                className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-violet-300 shadow-md"
+              />
+              <h2 className="text-xl font-bold text-violet-600">{user?.name}</h2>
+              <p className="text-gray-600">{user?.email}</p>
+              <p className="text-gray-500 text-sm mt-1">
+                Role: <span className="font-medium">{user?.role}</span>
+              </p>
             </div>
-          </Tab>
 
-          {/* Total Orders */}
-          <Tab className="cursor-pointer">
-            <div className="bg-gradient-to-br from-violet-50 to-pink-50 border border-violet-200 px-8 py-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={50}
-                height={50}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-list-ordered mx-auto text-violet-600 mb-2"
-              >
-                <line x1={10} x2={21} y1={6} y2={6} />
-                <line x1={10} x2={21} y1={12} y2={12} />
-                <line x1={10} x2={21} y1={18} y2={18} />
-                <path d="M4 6h1v4" />
-                <path d="M4 10h2" />
-                <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
-              </svg>
-              <h2 className="text-3xl font-bold text-violet-700">
-                {getAllOrder.length}
-              </h2>
-              <p className="text-violet-600 font-semibold">Total Orders</p>
+            {/* Dashboard Cards */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-r from-violet-100 to-purple-100 rounded-xl shadow p-5 text-center border border-violet-200 hover:scale-105 transition">
+                <Package size={40} className="mx-auto text-violet-600 mb-3" />
+                <h2 className="text-2xl font-bold text-violet-600">
+                  {getAllProduct.length}
+                </h2>
+                <p className="text-gray-600 font-medium">Total Products</p>
+              </div>
+
+              <div className="bg-gradient-to-r from-violet-100 to-purple-100 rounded-xl shadow p-5 text-center border border-violet-200 hover:scale-105 transition">
+                <ShoppingBag size={40} className="mx-auto text-violet-600 mb-3" />
+                <h2 className="text-2xl font-bold text-violet-600">
+                  {getAllOrder.length}
+                </h2>
+                <p className="text-gray-600 font-medium">Total Orders</p>
+              </div>
+
+              <div className="bg-gradient-to-r from-violet-100 to-purple-100 rounded-xl shadow p-5 text-center border border-violet-200 hover:scale-105 transition">
+                <Users size={40} className="mx-auto text-violet-600 mb-3" />
+                <h2 className="text-2xl font-bold text-violet-600">
+                  {getAllUser.length}
+                </h2>
+                <p className="text-gray-600 font-medium">Total Users</p>
+              </div>
             </div>
-          </Tab>
+          </div>
+        )}
 
-          {/* Total Users */}
-          <Tab className="cursor-pointer">
-            <div className="bg-gradient-to-br from-violet-50 to-pink-50 border border-violet-200 px-8 py-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={50}
-                height={50}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-users mx-auto text-violet-600 mb-2"
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                <circle cx={9} cy={7} r={4} />
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              <h2 className="text-3xl font-bold text-violet-700">
-                {getAllUser.length}
-              </h2>
-              <p className="text-violet-600 font-semibold">Total Users</p>
-            </div>
-          </Tab>
-        </TabList>
-
-        {/* Panels */}
-        <TabPanel>
-          <ProductDetail />
-        </TabPanel>
-        <TabPanel>
-          <OrderDetail />
-        </TabPanel>
-        <TabPanel>
-          <UserDetail />
-        </TabPanel>
-      </Tabs>
+        {activeTab === "products" && <ProductDetail />}
+        {activeTab === "orders" && <OrderDetail />}
+        {activeTab === "users" && <UserDetail />}
+      </main>
     </div>
   );
 };
