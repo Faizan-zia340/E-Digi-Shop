@@ -131,7 +131,7 @@
 // export default AdminDashboard;
 import { useState, useContext } from "react";
 import myContext from "../../context/myContext";
- import ProductDetail from '../../components/admins/ProductDetail/jsx'
+ import ProductDetail from '../../components/admins/ProductDetail'
 import OrderDetail from '../../components/admins/OrderDetail.jsx';
 import UserDetail from '../../components/admins/UserDEtail.jsx';
 import { LayoutDashboard, Package, ShoppingBag, Users } from "lucide-react";
